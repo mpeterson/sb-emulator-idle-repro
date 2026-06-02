@@ -11,7 +11,7 @@ Service Bus service does not.
 ## What you need
 
 - Docker
-- .NET 8 SDK
+- .NET 10 SDK
 
 ## Run it
 
