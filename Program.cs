@@ -23,6 +23,16 @@ var sw = Stopwatch.StartNew();
 void Log(string msg) =>
     Console.WriteLine($"[{sw.Elapsed:hh\\:mm\\:ss\\.fff}] {msg}");
 
+void LogException(string label, Exception ex)
+{
+    var depth = 0;
+    for (var cur = ex; cur is not null; cur = cur.InnerException, depth++)
+    {
+        var indent = new string(' ', depth * 2);
+        Log($"{label}{indent}-> {cur.GetType().FullName}: {cur.Message}");
+    }
+}
+
 var clientOptions = new ServiceBusClientOptions
 {
     TransportType = ServiceBusTransportType.AmqpTcp,
@@ -68,7 +78,7 @@ processor.ProcessMessageAsync += async args =>
     }
     catch (Exception ex)
     {
-        Log($"Handler threw {ex.GetType().FullName}: {ex.Message}");
+        LogException("Handler threw ", ex);
         observedException.TrySetResult(ex);
         throw;
     }
@@ -76,7 +86,8 @@ processor.ProcessMessageAsync += async args =>
 
 processor.ProcessErrorAsync += args =>
 {
-    Log($"ProcessErrorAsync source={args.ErrorSource} ex={args.Exception.GetType().FullName}: {args.Exception.Message}");
+    Log($"ProcessErrorAsync source={args.ErrorSource}");
+    LogException("  ", args.Exception);
     observedException.TrySetResult(args.Exception);
     return Task.CompletedTask;
 };
