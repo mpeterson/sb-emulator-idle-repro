@@ -32,6 +32,12 @@ background session-lock renewal is firing on the same client.
 
 Expected exit code: `2` (reproduced).
 
+> **Heads up: reproduction is architecture-dependent.** This repros on the
+> `linux/amd64` image variant (Docker Desktop on Windows) but **not** on the
+> `linux/arm64` variant (Docker Desktop on Apple Silicon) — same multi-arch
+> manifest digest. On an arm64 host, force `platform: linux/amd64` on the
+> emulator service in `docker-compose.yml` to exercise the buggy variant.
+
 ## What the connection string means
 
 The emulator accepts a fixed dev connection string:
