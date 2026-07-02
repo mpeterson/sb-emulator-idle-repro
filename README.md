@@ -8,6 +8,21 @@ simulates long-running work by sleeping. The emulator tears down the AMQP
 link while the handler is still actively holding the session lock; the real
 Service Bus service does not.
 
+## Status: fixed in emulator 2.0.1
+
+This repro was created against emulator **2.0.0**
+(`sha256:a00c9626c8960f6b9be6178aa91a7ac8f1a102c0d9deda7603a1ba0ac9d9ab51`),
+which was the `latest` tag at the time. That version reproduces the bug
+(handler is interrupted at ~4:51 with a `SessionLockLost` /
+"no active links in the past 300000 ms" error; exit code `2`).
+
+The bug is **fixed in emulator 2.0.1**
+(`sha256:5a96d893b245031740f7d46e0fe5ff282d24b78c4b7d761dd57590f3f010a9b3`,
+the current `latest`). Verified on a `linux/amd64` host: the handler sleeps
+the full 6 minutes, completes the message, and exits `0` with no broker
+disconnect. Note that 2.0.1 had no published release notes or changelog at
+the time of writing.
+
 ## What you need
 
 - Docker
