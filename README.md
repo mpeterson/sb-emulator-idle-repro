@@ -1,3 +1,11 @@
+> [!NOTE]
+> **Archived — the bug this repository reproduces is fixed.**
+> This repro targets emulator **2.0.0** (`sha256:a00c9626…`), which was
+> `latest` when the repo was created. The bug is fixed in emulator
+> **2.0.1** (`sha256:5a96d893…`, the current `latest`). This repository is
+> archived and kept for historical reference only. See
+> [Status](#status-fixed-in-emulator-201) below for details.
+
 # Service Bus emulator — idle session-receiver drop repro
 
 Minimal reproduction for
